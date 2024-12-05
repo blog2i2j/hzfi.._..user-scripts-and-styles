@@ -12,10 +12,13 @@ www.bing.com##.vs_cont
 x.com##[aria-label="获得认证"]
 x.com##[aria-label="已认证"],[aria-label="社群"],[aria-label="列表"],[aria-label="工作"]
 x.com##[aria-label="订阅 Premium"]
-x.com##[aria-label="Premium"]
+x.com##[aria-label*="Premium"]
 x.com##[aria-label="认证组织"]
 x.com##[aria-label="订阅 Premium，撰写自己的长帖"]
 x.com##div:has(>div>[aria-label="推荐关注"])
+! 2024年12月5日 https://x.com
+x.com##[aria-label="当前趋势"]>div>div:has(span:has-text(/Suggested Videos/))
+
 
 
 

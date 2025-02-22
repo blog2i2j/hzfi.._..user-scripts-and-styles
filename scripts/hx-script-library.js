@@ -3,7 +3,7 @@
 // @namespace       hx.fyi
 // @version         0.0.4
 // @description     Provide a general download method for other scripts to use
-// @author          hz2
+// @author          hzfi
 // @license         MIT
 // // Usage : 
 // // @require https://greasyfork.org/scripts/396752-hx-script-library/code/hx-script-library.js

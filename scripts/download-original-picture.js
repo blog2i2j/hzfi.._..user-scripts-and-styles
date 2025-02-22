@@ -4,10 +4,10 @@
 // @description  A tool to help you download full size images from websites
 // @description:zh-CN  一个帮你从网站下载原始尺寸图片的工具
 // @namespace    https://hx.fyi/
-// @version     0.1.4
+// @version     0.1.5
 // @license     GPL-3.0
 // @icon        data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+IDxjaXJjbGUgc3R5bGU9ImZpbGw6I0ZGRDA1QjsiIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIvPiA8cGF0aCBzdHlsZT0iZmlsbDojRkZGRkZGOyIgZD0iTTM3Mi44LDE5NkgzNjhjLTIuNC00MC40LTM1LjYtNzIuNC03Ni40LTcyLjRjLTQsMC04LDAuNC0xMS42LDAuOGMtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNiBjLTUxLjIsMC05Mi40LDQxLjYtOTIuNCw5Mi40YzAsMTAuOCwyLDIxLjIsNS4yLDMwLjhjLTI1LjIsMTAtNDIuOCwzNC00Mi44LDYyLjRjMCwzNi40LDI5LjYsNjYuNCw2Ni40LDY2LjRoMjM3LjIgYzM2LjQsMCw2Ni40LTI5LjYsNjYuNC02Ni40QzQzOC44LDIyNS42LDQwOS4yLDE5NiwzNzIuOCwxOTZ6Ii8+IDxwYXRoIHN0eWxlPSJmaWxsOiNGRjcwNTg7IiBkPSJNMzI1LjIsMzYyLjRsLTY2LjQsNjYuNGMtMi44LDIuOC03LjIsMi44LTEwLDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyLDQuOC0xMmgxNC44IGM0LDAsNy4yLTMuMiw3LjItNy4ydi05NmMwLTQsMy4yLTcuMiw3LjItNy4yaDc0LjhjNCwwLDcuMiwzLjIsNy4yLDcuMnY5NmMwLDQsMy4yLDcuMiw3LjIsNy4yaDE0LjggQzMyNi40LDM1MC40LDMyOS42LDM1OCwzMjUuMiwzNjIuNHoiLz4gPC9zdmc+IA==
-// @author      huc < ht@live.se >
+// @author      hzfi < hzfi@hx.fyi >
 // @supportURL  https://github.com/hzfi/user-scripts-and-styles/issues/new
 // @contributionURL https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=your.email.here@example.com&item_name=Greasy+Fork+donation
 // @contributionAmount 5
@@ -34,6 +34,9 @@
 // @match     *://dribbble.com/*
 // @match     *://*.dribbble.com/*
 // @match     *://bsky.app/*
+// @match     *://mastodon.social/*
+// @match     *://mastodon.online/*
+
 
 // @noframes
 // @grant          unsafeWindow
@@ -48,9 +51,7 @@
 // @grant          GM_addStyle
 // ==/UserScript==
 
-const head = document.getElementsByTagName('head');
-head[0].insertAdjacentHTML('beforeend', `<style type="text/css">
-.hx-download-original-images-tool{
+const styleContent = `.hx-download-original-images-tool{
     position: absolute;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+IDxjaXJjbGUgc3R5bGU9ImZpbGw6I0ZGRDA1QjsiIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIvPiA8cGF0aCBzdHlsZT0iZmlsbDojRkZGRkZGOyIgZD0iTTM3Mi44LDE5NkgzNjhjLTIuNC00MC40LTM1LjYtNzIuNC03Ni40LTcyLjRjLTQsMC04LDAuNC0xMS42LDAuOGMtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNiBjLTUxLjIsMC05Mi40LDQxLjYtOTIuNCw5Mi40YzAsMTAuOCwyLDIxLjIsNS4yLDMwLjhjLTI1LjIsMTAtNDIuOCwzNC00Mi44LDYyLjRjMCwzNi40LDI5LjYsNjYuNCw2Ni40LDY2LjRoMjM3LjIgYzM2LjQsMCw2Ni40LTI5LjYsNjYuNC02Ni40QzQzOC44LDIyNS42LDQwOS4yLDE5NiwzNzIuOCwxOTZ6Ii8+IDxwYXRoIHN0eWxlPSJmaWxsOiNGRjcwNTg7IiBkPSJNMzI1LjIsMzYyLjRsLTY2LjQsNjYuNGMtMi44LDIuOC03LjIsMi44LTEwLDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyLDQuOC0xMmgxNC44IGM0LDAsNy4yLTMuMiw3LjItNy4ydi05NmMwLTQsMy4yLTcuMiw3LjItNy4yaDc0LjhjNCwwLDcuMiwzLjIsNy4yLDcuMnY5NmMwLDQsMy4yLDcuMiw3LjIsNy4yaDE0LjggQzMyNi40LDM1MC40LDMyOS42LDM1OCwzMjUuMiwzNjIuNHoiLz4gPC9zdmc+IA==);
     background-size: cover;
@@ -88,8 +89,12 @@ head[0].insertAdjacentHTML('beforeend', `<style type="text/css">
   color: #fff;
   transform: translateX(280px) translateY(0);
   transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
-}
-</style>`);
+}`
+
+const head = document.getElementsByTagName('head');
+head[0].insertAdjacentHTML('beforeend', `<style type="text/css">${styleContent}</style>`);
+
+GM_addStyle(styleContent);
 
 
 console.warn('Welcome to %c \ud83d\ude48\ud83d\ude49\ud83d\ude4a\u0020\u0048\u007a\u00b2\u0020\u0053\u0063\u0072\u0069\u0070\u0074\u0020\u004c\u0069\u0062\u0072\u0061\u0072\u0079 %c v0.06 ', 'background-color:teal;color: white;border:1px solid teal;border-radius: 4px 0 0 4px;border-left-width:0;padding:1px;margin:2px 0;font-size:1.1em', 'background-color:#777;color: white;border:1px solid #777;border-radius: 0 4px 4px 0;border-right-width:0;padding:1px;margin:5px 0;');
@@ -97,7 +102,7 @@ console.warn('Welcome to %c \ud83d\ude48\ud83d\ude49\ud83d\ude4a\u0020\u0048\u00
 try {
   customElements.define('hxdownload-message',
     class extends HTMLElement {
-      constructor() {
+      constructor () {
         super();
 
         const divElem = document.createElement('div');
@@ -132,7 +137,7 @@ try {
 globalThis.__hx_Msg_list = new Set();
 
 class __hx_MsgIns {
-  constructor(text) {
+  constructor (text) {
     this.text = text;
     this.el = document.createElement('hxdownload-message')
     document.body.insertAdjacentElement('beforeend', this.el)
@@ -140,7 +145,7 @@ class __hx_MsgIns {
     this.textEl = this.el.shadowRoot.querySelector('.text-node')
     this.textEl.innerText = text;
     __hx_Msg_list.add(this);
-    this.el.style.transform = `translateX(280px) translateY(-${ (__hx_Msg_list.size -1 )* 50}px)`
+    this.el.style.transform = `translateX(280px) translateY(-${(__hx_Msg_list.size - 1) * 50}px)`
   }
   /**
    * @param {any} text
@@ -226,7 +231,7 @@ const openDown = (url, e, name) => {
         chunks.push(value);
         receivedLength += value.length;
         const text =
-          __hx_Msg.update(`Received ${ formatBytes( receivedLength )} / ${ formatBytes( contentLength ) }`)
+          __hx_Msg.update(`Received ${formatBytes(receivedLength)} / ${formatBytes(contentLength)}`)
       }
       __hx_Msg.close()
       return new Blob(chunks, {
@@ -704,6 +709,44 @@ const init = () => {
         createDom(cfg)
       }
     })
+    // 长毛象
+  } else if (
+    [
+      'mastodon.social',
+      'mastodon.online',
+    ].includes(hostname)
+  ) {
+    window.addEventListener('mouseover', ({
+      target
+    }) => {
+      const container = target && target.parentElement && target.parentElement.parentElement
+      if (container && container.className && (container.className.includes('media-gallery__item')
+
+      )) {
+        const inner = container.querySelector('img')
+          || container.querySelector('video');
+        let src = '';
+        if (inner.tagName === 'IMG') {
+          src = (inner && (inner.src || inner.srcset)).split('?')[0]
+        } else if (inner.tagName === 'VIDEO') {
+          src = inner && inner.src
+        }
+        const link = src?.replace('/small/', '/original/')
+        const style = 'left: 10px;top: 10px;'
+        const cfg = {
+          link,
+          style,
+          parent: container,
+          postion: 'beforeEnd',
+          name: lastItem(src.split('?')[0].split('/').filter(x => x)),
+        }
+        createDom(cfg)
+      }
+
+
+    })
+  } else {
+    // others
   }
 
 }

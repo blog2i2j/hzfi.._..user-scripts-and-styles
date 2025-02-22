@@ -22,8 +22,6 @@
 // @include     *://*.msn.cn/*
 // @include     *://instagram.com/*
 // @include     *://*.instagram.com/*
-// @include     *://instagram.com/*
-// @include     *://*.instagram.com/*
 // @include     *://tiktok.com/*
 // @include     *://*.tiktok.com/*
 // @include     *://*.douyin.com/*

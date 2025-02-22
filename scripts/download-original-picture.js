@@ -33,6 +33,7 @@
 // @match     *://*.midjourney.com/*
 // @match     *://dribbble.com/*
 // @match     *://*.dribbble.com/*
+// @match     *://bsky.app/*
 
 // @noframes
 // @grant          unsafeWindow
@@ -78,7 +79,7 @@ head[0].insertAdjacentHTML('beforeend', `<style type="text/css">
   position: fixed;
   left: -250px;
   bottom: 50px;
-  width: 250px;  
+  width: 250px;
   background: linear-gradient(to bottom right, #00000037, #0004 , #00000057 );
   box-shadow: 1px 0 20px 1px #64646433;
   padding: 2px 20px;
@@ -112,7 +113,7 @@ try {
         width: 100%;
         overflow: hidden;
         word-break: break-word;
-      }      
+      }
       `))
         const shadowRoot = this.attachShadow({
           mode: 'open'
@@ -194,8 +195,8 @@ const openDown = (url, e, name) => {
   }
 
   fetch(url, {
-      mode: "cors"
-    })
+    mode: "cors"
+  })
     .then(async resp => {
       // instead of response.json() and other methods
       const reader = resp.body.getReader();
@@ -340,10 +341,10 @@ const updateLink = (dom, link) => {
 const init = () => {
 
   if ([
-      'x.com',
-      'mobile.x.com',
-      'tweetdeck.x.com',
-    ].includes(hostname)) {
+    'x.com',
+    'mobile.x.com',
+    'tweetdeck.x.com',
+  ].includes(hostname)) {
     //x
     window.addEventListener('mouseover', ({
       target
@@ -550,7 +551,7 @@ const init = () => {
       //   }
       //   createDom(cfg)
       //   return
-      // } else 
+      // } else
       if (target && target.parentElement) {
         const container = target.parentElement.parentElement || {
           className: ''
@@ -678,6 +679,30 @@ const init = () => {
       }
 
 
+    })
+  } else if ([
+    'bsky.app',
+  ].includes(hostname)) {
+    window.addEventListener('mouseover', ({
+      target
+    }) => {
+      const src = target && target.src
+      const parent = target.parentElement
+      const next = parent && parent.nextElementSibling
+      if (target.tagName == 'IMG' && target.width >= 100 && target.height >= 100 &&
+        !(next && next.className.includes('hx-download-original-images-tool')) &&
+        !/profile_images|emoji|video_thumb/g.test(src)) {
+        const link = src.replace(/^https:\/\/cdn\.bsky\.app\/img\/feed_thumbnail\/plain\/(did:plc:[a-z0-9]+)\/([a-z0-9]+)@(jpg|jpeg|png|gif|bmp|webp|svg|tiff)$/, 'https://bsky.social/xrpc/com.atproto.sync.getBlob?did=$1&cid=$2')
+        const name = src.replace(/^https:\/\/cdn\.bsky\.app\/img\/feed_thumbnail\/plain\/(did:plc:[a-z0-9]+)\/([a-z0-9]+)@(jpg|jpeg|png|gif|bmp|webp|svg|tiff)$/, '$1.$2.$3')
+        const style = 'margin-left: 10px;margin-top: 10px;'
+        const cfg = {
+          parent,
+          link,
+          name,
+          style
+        }
+        createDom(cfg)
+      }
     })
   }
 

@@ -5,7 +5,7 @@
 ![Greasemonkey latest](https://img.shields.io/badge/🐒%20Greasemonkey-latest-lightgrey.svg?style=flat-square&labelColor=999&color=555)
 ![Violentmonkey latest](https://img.shields.io/badge/🦧%20Violentmonkey-latest-lightgrey.svg?style=flat-square&labelColor=999&color=555)
 [![](https://data.jsdelivr.com/v1/package/gh/hzfi/user-scripts-and-styles/badge)](https://www.jsdelivr.com/package/gh/hzfi/user-scripts-and-styles)
-[![](https://img.shields.io/badge/greasyfork-hz2-lightgrey.svg?style=flat-square&labelColor=999&color=555)](https://greasyfork.org/zh-CN/users/89722-hz2)
+[![](https://img.shields.io/badge/greasyfork-hzfi-lightgrey.svg?style=flat-square&labelColor=999&color=555)](https://greasyfork.org/zh-CN/users/89722-hzfi)
 [![](https://img.shields.io/badge/userstyles-yunSam-lightgrey.svg?style=flat-square&labelColor=999&color=555)](https://userstyles.org/users/277694)
 
 ![Chrome](https://img.shields.io/static/v1.svg?style=flat-square&label=Chrome&message=latest&color=yellow&labelColor=999&logo=google-chrome&logoColor=fff)

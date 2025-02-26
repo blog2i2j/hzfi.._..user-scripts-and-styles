@@ -4,7 +4,7 @@
 // @description  A tool to help you download svg element from websites
 // @description:zh-CN  一个帮你从网站下载 SVG 元素的工具
 // @namespace    https://hx.fyi/
-// @version     0.1.2
+// @version     0.1.5
 // @license     GPL-3.0
 // @icon        data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=
 // @author      huc < ht@live.se >
@@ -26,9 +26,7 @@
 // @grant          GM_addStyle
 // ==/UserScript==
 
-const head = document.getElementsByTagName('head');
-head[0].insertAdjacentHTML('beforeend', `<style type="text/css">
-.hx-download-svg-el-tool{
+const styleContent = `.hx-download-svg-el-tool{
     position: absolute;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=);
     background-size: cover;
@@ -67,7 +65,12 @@ head[0].insertAdjacentHTML('beforeend', `<style type="text/css">
   transform: translateX(280px) translateY(0);
   transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
 }
-</style>`);
+</style>`
+
+const head = document.getElementsByTagName('head');
+head?.[0].insertAdjacentHTML('beforeend', `<style type="text/css">${styleContent}</style>`);
+
+GM_addStyle(styleContent);
 
 
 console.warn('Welcome to %c \ud83d\ude48\ud83d\ude49\ud83d\ude4a\u0020\u0048\u007a\u00b2\u0020\u0053\u0063\u0072\u0069\u0070\u0074\u0020\u004c\u0069\u0062\u0072\u0061\u0072\u0079 %c v0.06 ', 'background-color:teal;color: white;border:1px solid teal;border-radius: 4px 0 0 4px;border-left-width:0;padding:1px;margin:2px 0;font-size:1.1em', 'background-color:#777;color: white;border:1px solid #777;border-radius: 0 4px 4px 0;border-right-width:0;padding:1px;margin:5px 0;');
@@ -361,6 +364,17 @@ const svgStr2BlobUrl = (str) => {
   return URL.createObjectURL(blob)
 }
 
+
+const removeDuplicatesByKey = (list, key) => {
+  const result = []
+  list.forEach(x => {
+    if (!result.find(y => y[key] === x[key])) {
+      result.push(x)
+    }
+  })
+  return result
+}
+
 const init = () => {
   function throttle(callback, delay = 300) {
     let shouldWait = false;
@@ -381,19 +395,36 @@ const init = () => {
         target
       } = event
       if (event.ctrlKey && event.shiftKey) {
-        const linkArr = [
-          ...new Set([...document.querySelectorAll('img[src*=".svg"]')].map(x => x.src)),
-          ...([ ...new Set([...document.querySelectorAll('svg')].map	(x=> x.outerHTML ))].map(x => svgStr2BlobUrl(x)))
-        ].map(x => ({ link: x }))
-        const cfg = {
-          linkArr,
-          title: "下载全部 svg 图片",
-          style: 'position: fixed; left: 10px;top: 50vh;',
-          parent: document.body,
-          postion: 'beforeEnd',
+        // img 格式
+        const linkImgArr =
+          removeDuplicatesByKey([...document.querySelectorAll('img[src*="svg"]')], 'src').map(x => {
+            return {
+              link: x.src,
+              name: x.alt || x.class
+            }
+          })
+        // 内联 svg
+        const linkInlineArr =
+          removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
+            return {
+              link: svgStr2BlobUrl(x.outerHTML),
+              name: x.classList.toString()
+            }
+          })
+        const linkArr = [...linkImgArr, ...linkInlineArr]
+        if (linkArr?.length) {
+          const cfg = {
+            linkArr,
+            title: "下载全部 svg 图片",
+            style: 'position: fixed; left: 10px;top: 50vh;',
+            parent: document.body,
+            postion: 'beforeEnd',
+          }
+          console.log('linkArr', linkArr)
+          createDom(cfg)
+          return
+
         }
-        createDom(cfg)
-        return
       }
       if (!event.ctrlKey || !target) {
         return

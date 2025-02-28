@@ -4,7 +4,7 @@
 // @description  A tool to help you download svg element from websites
 // @description:zh-CN  一个帮你从网站下载 SVG 元素的工具
 // @namespace    https://hx.fyi/
-// @version     0.1.5
+// @version     0.1.6
 // @license     GPL-3.0
 // @icon        data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=
 // @author      huc < ht@live.se >
@@ -27,43 +27,43 @@
 // ==/UserScript==
 
 const styleContent = `.hx-download-svg-el-tool{
-    position: absolute;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=);
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    opacity: .35;
-    z-index: 50000;
-    transform: scale(.75);
-    transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
+  position: absolute;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=);
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  opacity: .35;
+  z-index: 50000;
+  transform: scale(.75);
+  transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
 }
 .hx-download-svg-el-tool.white{
-    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImluaGVyaXQiIGltcGxpY2l0LWNvbnNlbnQtc291cmNlPSJ0cnVlIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEuMDEyMiAwIDAgMS4wMTIyIC0yOC42ODQgLTMuNDMzOSkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiPgogIDxjaXJjbGUgY3g9IjQwLjE5NCIgY3k9IjE1LjI0OCIgcj0iOC45ODI0Ii8+CiAgPHBhdGggZD0ibTQ1IDE3LTQuNTMzIDMuNTQ3Yy0wLjE2NjU5IDAuMTMwMzUtMC4zODQ2MSAwLjE0OTU3LTAuNTM0MTggMGwtNC41NjY0LTMuNTQ3Yy0wLjIzNTA0LTAuMjM1MDQtMC4wNjQxLTAuNjQxMDIgMC4yNTY0MS0wLjY0MTAyaDIuNDM2MmMwLjIxMzY3IDAgMC4zODQ2MS0wLjE3MDk0IDAuMzg0NjEtMC4zODQ2MXYtNS43MzI5YzAtMC4yMTM2NyAwLjE3MDk0LTAuMzg0NjEgMC4zODQ2MS0wLjM4NDYxaDIuNzAzNmMwLjIxMzY3IDAgMC4zODQ2MSAwLjE3MDk0IDAuMzg0NjEgMC4zODQ2MXY1LjczMjljMCAwLjIxMzY3IDAuMTcwOTQgMC4zODQ2MSAwLjM4NDYxIDAuMzg0NjFoMi40NjM5YzAuMjk5MTQgMCAwLjQ5NjgyIDAuNDM2MTggMC4yMzUwNCAwLjY0MTAyeiIvPgogPC9nPgo8L3N2Zz4K);
-    width: 24px;
-    height: 24px;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImluaGVyaXQiIGltcGxpY2l0LWNvbnNlbnQtc291cmNlPSJ0cnVlIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEuMDEyMiAwIDAgMS4wMTIyIC0yOC42ODQgLTMuNDMzOSkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiPgogIDxjaXJjbGUgY3g9IjQwLjE5NCIgY3k9IjE1LjI0OCIgcj0iOC45ODI0Ii8+CiAgPHBhdGggZD0ibTQ1IDE3LTQuNTMzIDMuNTQ3Yy0wLjE2NjU5IDAuMTMwMzUtMC4zODQ2MSAwLjE0OTU3LTAuNTM0MTggMGwtNC41NjY0LTMuNTQ3Yy0wLjIzNTA0LTAuMjM1MDQtMC4wNjQxLTAuNjQxMDIgMC4yNTY0MS0wLjY0MTAyaDIuNDM2MmMwLjIxMzY3IDAgMC4zODQ2MS0wLjE3MDk0IDAuMzg0NjEtMC4zODQ2MXYtNS43MzI5YzAtMC4yMTM2NyAwLjE3MDk0LTAuMzg0NjEgMC4zODQ2MS0wLjM4NDYxaDIuNzAzNmMwLjIxMzY3IDAgMC4zODQ2MSAwLjE3MDk0IDAuMzg0NjEgMC4zODQ2MXY1LjczMjljMCAwLjIxMzY3IDAuMTcwOTQgMC4zODQ2MSAwLjM4NDYxIDAuMzg0NjFoMi40NjM5YzAuMjk5MTQgMCAwLjQ5NjgyIDAuNDM2MTggMC4yMzUwNCAwLjY0MTAyeiIvPgogPC9nPgo8L3N2Zz4K);
+  width: 24px;
+  height: 24px;
 }
 .hx-download-svg-el-tool:hover {
-    opacity:1;
-    transform: scale(.9);
+  opacity:1;
+  transform: scale(.9);
 }
 .hx-download-svg-el-tool:active {
-    opacity:.8;
-    transform: scale(.7)  rotateZ(360deg);
+  opacity:.8;
+  transform: scale(.7)  rotateZ(360deg);
 }
 .hx-download-svg-el-tool-msg {
-  position: fixed;
-  left: -250px;
-  bottom: 50px;
-  width: 250px;
-  background: linear-gradient(to bottom right, #00000037, #0004 , #00000057 );
-  box-shadow: 1px 0 20px 1px #64646433;
-  padding: 2px 20px;
-  z-index: 65536;
-  border-radius: 100px;
-  color: #fff;
-  transform: translateX(280px) translateY(0);
-  transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
+position: fixed;
+left: -250px;
+bottom: 50px;
+width: 250px;
+background: linear-gradient(to bottom right, #00000037, #0004 , #00000057 );
+box-shadow: 1px 0 20px 1px #64646433;
+padding: 2px 20px;
+z-index: 65536;
+border-radius: 100px;
+color: #fff;
+transform: translateX(280px) translateY(0);
+transition: all cubic-bezier(0.18, 0.89, 0.32, 1.28) 250ms;
 }
 </style>`
 
@@ -87,15 +87,15 @@ try {
         // style
         const style = document.createElement('style');
         style.append(document.createTextNode(`
-      .text-node{
-        font-size: 14px;
-        line-height: 21px;
-        font-family: sans-serif;
-        width: 100%;
-        overflow: hidden;
-        word-break: break-word;
-      }
-      `))
+    .text-node{
+      font-size: 14px;
+      line-height: 21px;
+      font-family: sans-serif;
+      width: 100%;
+      overflow: hidden;
+      word-break: break-word;
+    }
+    `))
         const shadowRoot = this.attachShadow({
           mode: 'open'
         });
@@ -358,11 +358,27 @@ const svgStr2b64 = (str = '', val = false) => {
 
 const svgStr2BlobUrl = (str) => {
   let out = svgStr2b64(str, 'orgin')
+
   const blob = new Blob([out], {
     type: 'image/svg+xml'
   })
   return URL.createObjectURL(blob)
 }
+
+
+
+const svgB64Str2BlobUrl = (str) => {
+  let content = str;
+  if (str.includes('svg+xml;base64,')) {
+    content = atob(str.replace('data:image/svg+xml;base64,', ''))
+  }
+  const blob = new Blob([content], {
+    type: 'image/svg+xml'
+  })
+  return URL.createObjectURL(blob)
+}
+
+
 
 
 const removeDuplicatesByKey = (list, key) => {
@@ -404,14 +420,30 @@ const init = () => {
             }
           })
         // 内联 svg
+        // TODO 排除 symbol
         const linkInlineArr =
           removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
             return {
               link: svgStr2BlobUrl(x.outerHTML),
-              name: x.classList.toString()
+              name: x.parentElement.classList?.toString().split(' ')?.at(-1) || x.classList.toString()
             }
           })
-        const linkArr = [...linkImgArr, ...linkInlineArr]
+        // css svg
+        const cssInlineArr =
+          removeDuplicatesByKey([
+            ...document.querySelectorAll('[style*=svg]')]
+            .map((x, i) => ({
+              link: (x.style['background-image'] || x.style['background']).replace(/url\([\"']|[\"']\)/g, ''),
+              name: x.nextElementSibling?.innerText || x.className
+            }))
+            , 'link')
+            .map(x => {
+              return {
+                link: svgB64Str2BlobUrl(x.link),
+                name: x.name
+              }
+            })
+        const linkArr = [...linkImgArr, ...linkInlineArr, ...cssInlineArr]
         if (linkArr?.length) {
           const cfg = {
             linkArr,

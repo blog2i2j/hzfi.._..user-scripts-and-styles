@@ -286,12 +286,16 @@ const createDom = (cfg) => {
       e && e.stopPropagation()
       const newName = name || lastItem(link.split('/'))
       if (linkArr) {
-        linkArr.forEach(({
+        linkArr.reverse().forEach(({
           link,
           name
-        }) => {
+        }, index ) => {
           const newName = name || lastItem(link.split('/'))
+          setTimeout(()=> {
+          console.log('index2', index, newName )
           openDown(link, e, newName)
+          },100 * index )
+
         })
       } else {
         openDown(link, e, newName);
@@ -370,7 +374,13 @@ const svgStr2BlobUrl = (str) => {
 const svgB64Str2BlobUrl = (str) => {
   let content = str;
   if (str.includes('svg+xml;base64,')) {
+      try {
+
     content = atob(str.replace('data:image/svg+xml;base64,', ''))
+
+      } catch (e) {
+      console.log('e',e , str )
+      }
   }
   const blob = new Blob([content], {
     type: 'image/svg+xml'
@@ -422,12 +432,15 @@ const init = () => {
         // 内联 svg
         // TODO 排除 symbol
         const linkInlineArr =
-          removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
+          //removeDuplicatesByKey(
+          //    [...document.querySelectorAll('svg')].map(x => {
+           removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
             return {
               link: svgStr2BlobUrl(x.outerHTML),
               name: x.parentElement.classList?.toString().split(' ')?.at(-1) || x.classList.toString()
             }
           })
+        console.log('ee', [...document.querySelectorAll('svg')] , linkInlineArr )
         // css svg
         const cssInlineArr =
           removeDuplicatesByKey([

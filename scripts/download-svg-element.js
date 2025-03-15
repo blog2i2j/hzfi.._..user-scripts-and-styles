@@ -4,7 +4,7 @@
 // @description  A tool to help you download svg element from websites
 // @description:zh-CN  一个帮你从网站下载 SVG 元素的工具
 // @namespace    https://hx.fyi/
-// @version     0.1.6
+// @version     0.1.8
 // @license     GPL-3.0
 // @icon        data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=
 // @author      huc < ht@live.se >
@@ -289,12 +289,12 @@ const createDom = (cfg) => {
         linkArr.reverse().forEach(({
           link,
           name
-        }, index ) => {
+        }, index) => {
           const newName = name || lastItem(link.split('/'))
-          setTimeout(()=> {
-          console.log('index2', index, newName )
-          openDown(link, e, newName)
-          },100 * index )
+          setTimeout(() => {
+            console.log('index2', index, newName)
+            openDown(link, e, newName)
+          }, 100 * index)
 
         })
       } else {
@@ -314,8 +314,10 @@ const createDom = (cfg) => {
   const exist = parent2 && parent2.querySelector('.hx-download-svg-el-tool')
   if (exist) {
     genDomDL(exist)
-  } else {
+  } else if (parent2) {
     parent2 && parent2.insertAdjacentElement(postion, genDomDL())
+  } else {
+    target.insertAdjacentElement('afterEnd', genDomDL())
   }
 }
 
@@ -374,13 +376,13 @@ const svgStr2BlobUrl = (str) => {
 const svgB64Str2BlobUrl = (str) => {
   let content = str;
   if (str.includes('svg+xml;base64,')) {
-      try {
+    try {
 
-    content = atob(str.replace('data:image/svg+xml;base64,', ''))
+      content = atob(str.replace('data:image/svg+xml;base64,', ''))
 
-      } catch (e) {
-      console.log('e',e , str )
-      }
+    } catch (e) {
+      console.log('e', e, str)
+    }
   }
   const blob = new Blob([content], {
     type: 'image/svg+xml'
@@ -415,12 +417,16 @@ const init = () => {
     };
   }
 
-  window.addEventListener('mouseover', throttle(
+  const realEv = throttle(
     (event) => {
       const {
         target
-      } = event
+      } = event;
+
+
       if (event.ctrlKey && event.shiftKey) {
+
+        console.log('target', target, event)
         // img 格式
         const linkImgArr =
           removeDuplicatesByKey([...document.querySelectorAll('img[src*="svg"]')], 'src').map(x => {
@@ -429,18 +435,19 @@ const init = () => {
               name: x.alt || x.class
             }
           })
+        console.log('linkImgArr==>', linkImgArr)
         // 内联 svg
         // TODO 排除 symbol
         const linkInlineArr =
           //removeDuplicatesByKey(
           //    [...document.querySelectorAll('svg')].map(x => {
-           removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
+          removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
             return {
               link: svgStr2BlobUrl(x.outerHTML),
               name: x.parentElement.classList?.toString().split(' ')?.at(-1) || x.classList.toString()
             }
           })
-        console.log('ee', [...document.querySelectorAll('svg')] , linkInlineArr )
+        console.log('ee', [...document.querySelectorAll('svg')], linkInlineArr)
         // css svg
         const cssInlineArr =
           removeDuplicatesByKey([
@@ -461,7 +468,7 @@ const init = () => {
           const cfg = {
             linkArr,
             title: "下载全部 svg 图片",
-            style: 'position: fixed; left: 10px;top: 50vh;',
+            style: 'position: fixed; left: 10px;top: 50vh;z-index: 22222222;',
             parent: document.body,
             postion: 'beforeEnd',
           }
@@ -556,7 +563,10 @@ const init = () => {
 
     })
 
-  )
+
+
+  window.addEventListener('mouseover', realEv)
+
 
 }
 

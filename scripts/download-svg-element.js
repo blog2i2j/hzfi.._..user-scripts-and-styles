@@ -438,8 +438,18 @@ const init = () => {
             }))
             , 'link')
             .map(x => {
+              let link = '';
+              if ( x.link?.endsWith('.svg') ) {
+                if ( x.link?.startsWith( 'http')) {
+                  link = x.link
+                } else {
+                  link = window.location.origin + x.link 
+                }
+              } else {
+                link = svgB64Str2BlobUrl(x.link)
+              }
               return {
-                link: svgB64Str2BlobUrl(x.link),
+                link,
                 name: x.name
               }
             })

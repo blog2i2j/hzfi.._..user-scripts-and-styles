@@ -4,7 +4,7 @@
 // @description  A tool to help you download svg element from websites
 // @description:zh-CN  一个帮你从网站下载 SVG 元素的工具
 // @namespace    https://hx.fyi/
-// @version     0.1.8
+// @version     0.1.9
 // @license     GPL-3.0
 // @icon        data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=
 // @author      huc < ht@live.se >
@@ -432,7 +432,7 @@ const init = () => {
           removeDuplicatesByKey([...document.querySelectorAll('img[src*="svg"]')], 'src').map(x => {
             return {
               link: x.src,
-              name: x.alt || x.class
+              name:  x.alt || x.class
             }
           })
         console.log('linkImgArr==>', linkImgArr)
@@ -444,7 +444,7 @@ const init = () => {
           removeDuplicatesByKey([...document.querySelectorAll('svg')], 'outerHTML').map(x => {
             return {
               link: svgStr2BlobUrl(x.outerHTML),
-              name: x.parentElement.classList?.toString().split(' ')?.at(-1) || x.classList.toString()
+              name: x.parentElement?.nextSibling?.innerText?.split('\n')?.[0]|| x.parentElement.classList?.toString().split(' ')?.at(-1) || x.classList.toString()
             }
           })
         console.log('ee', [...document.querySelectorAll('svg')], linkInlineArr)
@@ -463,7 +463,7 @@ const init = () => {
                 if ( x.link?.startsWith( 'http')) {
                   link = x.link
                 } else {
-                  link = window.location.origin + x.link 
+                  link = window.location.origin + x.link
                 }
               } else {
                 link = svgB64Str2BlobUrl(x.link)
@@ -491,7 +491,7 @@ const init = () => {
       if (!event.ctrlKey || !target) {
         return
       }
-      if (!['G', 'PATH', 'RECT', 'USE', 'SVG', 'IMG'].includes(target.tagName.toUpperCase())) {
+      if (!['G', 'PATH', 'RECT', 'USE', 'SVG', 'IMG','ELLIPSE'].includes(target.tagName.toUpperCase())) {
         return
       }
 

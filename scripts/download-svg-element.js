@@ -385,6 +385,8 @@ const svgB64Str2BlobUrl = (str) => {
       } catch (e) {
       console.log('e',e , str )
       }
+  } else if ( str.includes('svg+xml,') ) {
+    content = decodeURIComponent( str.replace('data:image/svg+xml,', '') )
   }
   const blob = new Blob([content], {
     type: 'image/svg+xml'
@@ -432,8 +434,9 @@ const init = () => {
         // img 格式
         const linkImgArr =
           removeDuplicatesByKey([...document.querySelectorAll('img[src*="svg"]')], 'src').map(x => {
+            const link = x.src?.startsWith('data:image/svg+xml') ? svgB64Str2BlobUrl( x.src ) : x.src
             return {
-              link: x.src,
+              link: link,
               name: x.alt || x.class
             }
           })

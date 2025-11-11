@@ -4,7 +4,7 @@
 // @description  A tool to help you download svg element from websites
 // @description:zh-CN  一个帮你从网站下载 SVG 元素的工具
 // @namespace    https://hx.fyi/
-// @version     0.3.0
+// @version     0.3.5
 // @license     GPL-3.0
 // @icon        data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTA4IDUwOCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIyNTQiIGN5PSIyNTQiIHI9IjI1NCIgZmlsbD0iI2ZmYTZkYSIvPjxwYXRoIGQ9Im0zNzIuOCAxOTZoLTQuOGMtMi40LTQwLjQtMzUuNi03Mi40LTc2LjQtNzIuNC00IDAtOCAwLjQtMTEuNiAwLjgtMTYtMjguNC00Ni00Ny42LTgwLjgtNDcuNi01MS4yIDAtOTIuNCA0MS42LTkyLjQgOTIuNCAwIDEwLjggMiAyMS4yIDUuMiAzMC44LTI1LjIgMTAtNDIuOCAzNC00Mi44IDYyLjQgMCAzNi40IDI5LjYgNjYuNCA2Ni40IDY2LjRoMjM3LjJjMzYuNCAwIDY2LjQtMjkuNiA2Ni40LTY2LjQtMC40LTM2LjgtMzAtNjYuNC02Ni40LTY2LjR6IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0ibTMyNS4yIDM2Mi40LTY2LjQgNjYuNGMtMi44IDIuOC03LjIgMi44LTEwIDBsLTY2LTY2LjRjLTQuNC00LjQtMS4yLTEyIDQuOC0xMmgxNC44YzQgMCA3LjItMy4yIDcuMi03LjJ2LTk2YzAtNCAzLjItNy4yIDcuMi03LjJoNzQuOGM0IDAgNy4yIDMuMiA3LjIgNy4ydjk2YzAgNCAzLjIgNy4yIDcuMiA3LjJoMTQuOGM1LjYgMCA4LjggNy42IDQuNCAxMnoiIGZpbGw9IiNkZTI2ZmYiLz48L3N2Zz4=
 // @author      huc < ht@live.se >
@@ -45,8 +45,8 @@ const styleContent = `.hx-download-svg-el-tool{
   height: 24px;
 }
 .hx-download-svg-el-tool.mini{
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
 }
 .hx-download-svg-el-tool:hover {
   opacity:1;
@@ -321,9 +321,11 @@ const createDom = (cfg) => {
   if (exist) {
     genDomDL(exist)
   } else  if (parent2)  {
-    parent2 && parent2.insertAdjacentElement(postion, genDomDL())
+    parent2.insertAdjacentElement(postion, genDomDL())
+    parent2.style.position = 'relative'
   } else {
-      target.insertAdjacentElement('afterEnd', genDomDL())
+    target.insertAdjacentElement('afterEnd', genDomDL())
+    target.style.position = 'relative'
   }
 }
 
